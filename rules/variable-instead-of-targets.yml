@@ -1,30 +1,77 @@
 id: variable-instead-of-targets
-message: Don't use variables in place of targets. Use target names directly in target_link_libraries().
+message: Don't use variables in place of targets. Use target names directly.
 severity: warning
 language: cmake
 rule:
-  all:
-    # Match target_link_libraries with variables
-    - pattern: target_link_libraries($$$)
-    - has:
-        regex: '\$\{[^}]+\}'
-    # Exclude path-like expressions (containing / or \ anywhere in the argument)
-    - not:
-        has:
-          regex: '[/\\]'
-    # Exclude CMAKE built-in variables
-    - not:
-        has:
-          regex: '\$\{CMAKE_[^}]*\}'
-    # Exclude PROJECT built-in variables
-    - not:
-        has:
-          regex: '\$\{PROJECT_[^}]*\}'
-    # Exclude common find_library variable suffixes (but be conservative)
-    - not:
-        has:
-          regex: '\$\{[^}]*_LIBRAR(Y|IES)\}'
-    # Exclude generator expressions
-    - not:
-        has:
-          regex: '\$<[^>]*>'
+  any:
+    # target_link_libraries with variables
+    - all:
+        - pattern: target_link_libraries($$$)
+        - has:
+            regex: '\$\{[^}]+\}'
+        # Exclude path-like expressions (containing / or \ anywhere in the argument)
+        - not:
+            has:
+              regex: '[/\\]'
+        # Exclude CMAKE built-in variables
+        - not:
+            has:
+              regex: '\$\{CMAKE_[^}]*\}'
+        # Exclude PROJECT built-in variables
+        - not:
+            has:
+              regex: '\$\{PROJECT_[^}]*\}'
+        # Exclude common find_library variable suffixes (but be conservative)
+        - not:
+            has:
+              regex: '\$\{[^}]*_LIBRAR(Y|IES)\}'
+        # Exclude generator expressions
+        - not:
+            has:
+              regex: '\$<[^>]*>'
+
+    # add_dependencies with variables in dependency arguments
+    - all:
+        - pattern: add_dependencies($$$)
+        - has:
+            regex: '\$\{[^}]+\}'
+        # Apply same exclusions
+        - not:
+            has:
+              regex: '[/\\]'
+        - not:
+            has:
+              regex: '\$\{CMAKE_[^}]*\}'
+        - not:
+            has:
+              regex: '\$\{PROJECT_[^}]*\}'
+        - not:
+            has:
+              regex: '\$\{[^}]*_LIBRAR(Y|IES)\}'
+        - not:
+            has:
+              regex: '\$<[^>]*>'
+
+    # set_target_properties with variables - specifically target positions before PROPERTIES
+    - all:
+        - pattern: set_target_properties($$$)
+        # Use precise regex to identify variables before PROPERTIES keyword
+        # This regex matches variables that appear before the word PROPERTIES
+        - has:
+            regex: '\$\{[^}]+\}.*PROPERTIES'
+        # Apply same exclusions
+        - not:
+            has:
+              regex: '[/\\]'
+        - not:
+            has:
+              regex: '\$\{CMAKE_[^}]*\}'
+        - not:
+            has:
+              regex: '\$\{PROJECT_[^}]*\}'
+        - not:
+            has:
+              regex: '\$\{[^}]*_LIBRAR(Y|IES)\}'
+        - not:
+            has:
+              regex: '\$<[^>]*>'

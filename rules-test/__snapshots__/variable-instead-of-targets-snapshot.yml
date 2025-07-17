@@ -88,3 +88,77 @@ snapshots:
       style: secondary
       start: 49
       end: 77
+  ? |
+    set(DEP_TARGET my_dependency)
+    add_dependencies(myapp ${DEP_TARGET})
+  : labels:
+    - source: add_dependencies(myapp ${DEP_TARGET})
+      style: primary
+      start: 30
+      end: 67
+    - source: myapp ${DEP_TARGET}
+      style: secondary
+      start: 47
+      end: 66
+  ? |
+    set(MULTIPLE_DEPS dep1 dep2 dep3)
+    add_dependencies(myapp ${MULTIPLE_DEPS})
+  : labels:
+    - source: add_dependencies(myapp ${MULTIPLE_DEPS})
+      style: primary
+      start: 34
+      end: 74
+    - source: myapp ${MULTIPLE_DEPS}
+      style: secondary
+      start: 51
+      end: 73
+  ? |
+    set(BUILD_DEP build_target)
+    set(TEST_DEP test_target)
+    add_dependencies(myapp ${BUILD_DEP} ${TEST_DEP})
+  : labels:
+    - source: add_dependencies(myapp ${BUILD_DEP} ${TEST_DEP})
+      style: primary
+      start: 54
+      end: 102
+    - source: myapp ${BUILD_DEP} ${TEST_DEP}
+      style: secondary
+      start: 71
+      end: 101
+  ? |
+    set(TARGET_NAME my_target)
+    set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME "renamed")
+  : labels:
+    - source: set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME "renamed")
+      style: primary
+      start: 27
+      end: 97
+    - source: ${TARGET_NAME} PROPERTIES OUTPUT_NAME "renamed"
+      style: secondary
+      start: 49
+      end: 96
+  ? |
+    set(LIB1 library1)
+    set(LIB2 library2)
+    set_target_properties(${LIB1} ${LIB2} PROPERTIES CXX_STANDARD 17)
+  : labels:
+    - source: set_target_properties(${LIB1} ${LIB2} PROPERTIES CXX_STANDARD 17)
+      style: primary
+      start: 38
+      end: 103
+    - source: ${LIB1} ${LIB2} PROPERTIES CXX_STANDARD 17
+      style: secondary
+      start: 60
+      end: 102
+  ? |
+    set(ALL_TARGETS target1 target2 target3)
+    set_target_properties(${ALL_TARGETS} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+  : labels:
+    - source: set_target_properties(${ALL_TARGETS} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+      style: primary
+      start: 41
+      end: 118
+    - source: ${ALL_TARGETS} PROPERTIES POSITION_INDEPENDENT_CODE ON
+      style: secondary
+      start: 63
+      end: 117
