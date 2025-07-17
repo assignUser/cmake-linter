@@ -93,6 +93,20 @@ invalid:
   - |
     link_directories(${CMAKE_BINARY_DIR}/lib)
   - |
+    # Wrapper functions for deprecated commands should also trigger
+    project_link_directories(/usr/local/lib)
+  - |
+    my_link_directories(${CMAKE_BINARY_DIR}/lib)
+  - |
+    custom_link_directories(/opt/local/lib)
+  - |
+    # Deprecated subdirs wrappers
+    project_subdirs(src tests docs)
+  - |
+    my_subdirs(lib tools)
+  - |
+    custom_subdirs(modules plugins)
+  - |
     link_directories(
         /opt/lib
         /usr/lib64

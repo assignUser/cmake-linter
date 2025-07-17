@@ -1,8 +1,19 @@
 id: prefer-find-package
-message: Use find_package() instead of manual library finding with find_path() and find_library(). Modern CMake prefers find_package for dependency management.
+message: Use find_package() or its wrapper functions instead of manual library finding with find_path() and find_library(). Modern CMake prefers find_package for dependency management.
 severity: warning
 language: cmake
 rule:
   any:
     - pattern: find_path($$$)
     - pattern: find_library($$$)
+    # Common wrapper function patterns
+    - pattern: project_find_path($$$)
+    - pattern: project_find_library($$$)
+    - pattern: custom_find_path($$$)
+    - pattern: custom_find_library($$$)
+    - pattern: my_find_path($$$)
+    - pattern: my_find_library($$$)
+    - pattern: utils_find_path($$$)
+    - pattern: utils_find_library($$$)
+    - pattern: app_find_path($$$)
+    - pattern: app_find_library($$$)

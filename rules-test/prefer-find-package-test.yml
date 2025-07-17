@@ -53,3 +53,17 @@ invalid:
         PATHS /usr/lib /usr/local/lib
         PATH_SUFFIXES foo
     )
+  - |
+    # Wrapper functions should also trigger the rule
+    project_find_path(BOOST_INCLUDE_DIR boost/version.hpp)
+  - |
+    custom_find_library(BOOST_SYSTEM_LIB boost_system)
+  - |
+    # Mixed wrapper and base functions
+    project_find_path(OPENSSL_INCLUDE_DIR openssl/ssl.h)
+    find_library(OPENSSL_SSL_LIB ssl)
+    my_find_library(OPENSSL_CRYPTO_LIB crypto)
+  - |
+    # Prefixed wrapper functions
+    utils_find_path(FOO_INCLUDE_DIR foo.h)
+    app_find_library(FOO_LIB foo)

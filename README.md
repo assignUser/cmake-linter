@@ -82,6 +82,40 @@ rule:
   pattern: cmake_minimum_required($$$)
 ```
 
+## Wrapper Function Support
+
+The cmake-linter supports wrapper functions and aliases for CMake commands. This is useful when you have custom functions that wrap standard CMake functions.
+
+### Example
+
+If you have wrapper functions like:
+```cmake
+function(project_add_library TARGET)
+  add_library(${TARGET} ${ARGN})
+  target_compile_features(${TARGET} PUBLIC cxx_std_17)
+endfunction()
+```
+
+The linter will treat `project_add_library` the same as `add_library` for applicable rules.
+
+### Supported Wrapper Patterns
+
+The linter automatically detects common wrapper function patterns for:
+- **Library functions**: `add_library`, `add_executable`
+- **Target functions**: `target_link_libraries`, `target_compile_features`, `target_include_directories`
+- **Find functions**: `find_package`, `find_path`, `find_library`
+- **Deprecated functions**: `link_directories`, `subdirs`, etc.
+
+Common wrapper patterns include:
+- `project_*` (e.g., `project_add_library`)
+- `my_*` (e.g., `my_target_link_libraries`)
+- `custom_*` (e.g., `custom_find_package`)
+- `app_*`, `utils_*`, etc.
+
+### Configuration
+
+You can review and customize wrapper function aliases in `cmake-function-aliases.yml`. The linter includes sensible defaults, but you can extend them for your specific naming conventions.
+
 ## File Support
 
 The linter recognizes these file patterns:

@@ -1,6 +1,19 @@
 id: variable-instead-of-targets
 snapshots:
   ? |
+    # Wrapper functions should also detect variable usage
+    set(MATH_LIB math_utils)
+    project_target_link_libraries(myapp PRIVATE ${MATH_LIB})
+  : labels:
+    - source: project_target_link_libraries(myapp PRIVATE ${MATH_LIB})
+      style: primary
+      start: 79
+      end: 135
+    - source: myapp PRIVATE ${MATH_LIB}
+      style: secondary
+      start: 109
+      end: 134
+  ? |
     find_library(FOO_LIB foo PATHS /usr/local/lib)
     target_link_libraries(myapp PRIVATE ${FOO_LIB})
   : labels:
@@ -12,6 +25,18 @@ snapshots:
       style: secondary
       start: 69
       end: 93
+  ? |
+    set(ALL_LIBS math_utils string_utils)
+    custom_target_link_libraries(myapp INTERFACE ${ALL_LIBS})
+  : labels:
+    - source: custom_target_link_libraries(myapp INTERFACE ${ALL_LIBS})
+      style: primary
+      start: 38
+      end: 95
+    - source: myapp INTERFACE ${ALL_LIBS}
+      style: secondary
+      start: 67
+      end: 94
   ? |
     set(ALL_LIBS math_utils string_utils)
     target_link_libraries(myapp INTERFACE ${ALL_LIBS})
@@ -66,6 +91,18 @@ snapshots:
       end: 59
   ? |
     set(STRING_LIB string_utils)
+    my_target_link_libraries(myapp PUBLIC ${STRING_LIB})
+  : labels:
+    - source: my_target_link_libraries(myapp PUBLIC ${STRING_LIB})
+      style: primary
+      start: 29
+      end: 81
+    - source: myapp PUBLIC ${STRING_LIB}
+      style: secondary
+      start: 54
+      end: 80
+  ? |
+    set(STRING_LIB string_utils)
     target_link_libraries(myapp PUBLIC ${STRING_LIB})
   : labels:
     - source: target_link_libraries(myapp PUBLIC ${STRING_LIB})
@@ -87,4 +124,16 @@ snapshots:
     - source: myapp PRIVATE ${TARGET_NAME}
       style: secondary
       start: 49
+      end: 77
+  ? |
+    set(UTIL_LIB util_target)
+    app_target_link_libraries(myapp PRIVATE ${UTIL_LIB})
+  : labels:
+    - source: app_target_link_libraries(myapp PRIVATE ${UTIL_LIB})
+      style: primary
+      start: 26
+      end: 78
+    - source: myapp PRIVATE ${UTIL_LIB}
+      style: secondary
+      start: 52
       end: 77

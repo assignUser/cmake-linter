@@ -1,0 +1,75 @@
+id: function-aliases
+language: cmake
+# Utility for matching CMake functions and their common wrapper/alias patterns
+# This utility provides reusable patterns for detecting both base CMake functions
+# and their wrapper functions/aliases as defined in cmake-function-aliases.yml
+rule:
+  # This utility is not meant to be used as a standalone rule
+  pattern: __NEVER_MATCH__
+utils:
+  # Library management functions with their common aliases
+  add_library_with_aliases:
+    any:
+      - pattern: add_library($$$)
+      - pattern: project_add_library($$$)
+      - pattern: my_add_library($$$)
+      - pattern: custom_add_library($$$)
+      - pattern: app_add_library($$$)
+      - pattern: utils_add_library($$$)
+
+  add_executable_with_aliases:
+    any:
+      - pattern: add_executable($$$)
+      - pattern: project_add_executable($$$)
+      - pattern: my_add_executable($$$)
+      - pattern: custom_add_executable($$$)
+      - pattern: app_add_executable($$$)
+      - pattern: utils_add_executable($$$)
+
+  # Target configuration functions with their common aliases
+  target_link_libraries_with_aliases:
+    any:
+      - pattern: target_link_libraries($$$)
+      - pattern: project_target_link_libraries($$$)
+      - pattern: my_target_link_libraries($$$)
+      - pattern: custom_target_link_libraries($$$)
+      - pattern: app_target_link_libraries($$$)
+      - pattern: utils_target_link_libraries($$$)
+
+  target_compile_features_with_aliases:
+    any:
+      - pattern: target_compile_features($$$)
+      - pattern: project_target_compile_features($$$)
+      - pattern: my_target_compile_features($$$)
+      - pattern: custom_target_compile_features($$$)
+
+  target_include_directories_with_aliases:
+    any:
+      - pattern: target_include_directories($$$)
+      - pattern: project_target_include_directories($$$)
+      - pattern: my_target_include_directories($$$)
+      - pattern: custom_target_include_directories($$$)
+
+  # Package and dependency management with their common aliases
+  find_package_with_aliases:
+    any:
+      - pattern: find_package($$$)
+      - pattern: project_find_package($$$)
+      - pattern: my_find_package($$$)
+      - pattern: custom_find_package($$$)
+
+  # Manual find functions (generally discouraged) with their aliases
+  manual_find_with_aliases:
+    any:
+      - pattern: find_path($$$)
+      - pattern: find_library($$$)
+      - pattern: project_find_path($$$)
+      - pattern: project_find_library($$$)
+      - pattern: my_find_path($$$)
+      - pattern: my_find_library($$$)
+      - pattern: custom_find_path($$$)
+      - pattern: custom_find_library($$$)
+      - pattern: utils_find_path($$$)
+      - pattern: utils_find_library($$$)
+      - pattern: app_find_path($$$)
+      - pattern: app_find_library($$$)

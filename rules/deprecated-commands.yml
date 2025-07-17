@@ -1,9 +1,10 @@
 id: deprecated-commands
-message: This command is deprecated and should not be used in new code. See CMake documentation for modern alternatives.
+message: This command is deprecated and should not be used in new code. See CMake documentation for modern alternatives. This includes wrapper functions.
 severity: error
 language: cmake
 rule:
   any:
+    # Base deprecated commands
     - pattern: build_name($ARGS)
     - pattern: exec_program($ARGS)
     - pattern: export_library_dependencies($ARGS)
@@ -23,3 +24,10 @@ rule:
     - pattern: utility_source($ARGS)
     - pattern: variable_requires($ARGS)
     - pattern: write_file($ARGS)
+    # Common wrapper patterns for deprecated commands
+    - pattern: project_link_directories($ARGS)
+    - pattern: my_link_directories($ARGS)
+    - pattern: custom_link_directories($ARGS)
+    - pattern: project_subdirs($ARGS)
+    - pattern: my_subdirs($ARGS)
+    - pattern: custom_subdirs($ARGS)

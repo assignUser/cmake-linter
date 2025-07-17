@@ -19,6 +19,14 @@ snapshots:
       style: primary
       start: 45
       end: 122
+  ? |
+    # Deprecated subdirs wrappers
+    project_subdirs(src tests docs)
+  : labels:
+    - source: project_subdirs(src tests docs)
+      style: primary
+      start: 30
+      end: 61
   ? |-
     # Mixed with modern commands - deprecated ones should still trigger
     add_executable(myapp main.cpp)
@@ -51,6 +59,14 @@ snapshots:
       style: primary
       start: 101
       end: 141
+  ? |
+    # Wrapper functions for deprecated commands should also trigger
+    project_link_directories(/usr/local/lib)
+  : labels:
+    - source: project_link_directories(/usr/local/lib)
+      style: primary
+      start: 64
+      end: 104
   build_name(BUILD_NAME):
     labels:
     - source: build_name(BUILD_NAME)
@@ -66,6 +82,20 @@ snapshots:
       style: primary
       start: 58
       end: 90
+  ? |
+    custom_link_directories(/opt/local/lib)
+  : labels:
+    - source: custom_link_directories(/opt/local/lib)
+      style: primary
+      start: 0
+      end: 39
+  ? |
+    custom_subdirs(modules plugins)
+  : labels:
+    - source: custom_subdirs(modules plugins)
+      style: primary
+      start: 0
+      end: 31
   exec_program(ls ARGS "-la" OUTPUT_VARIABLE LS_OUTPUT):
     labels:
     - source: exec_program(ls ARGS "-la" OUTPUT_VARIABLE LS_OUTPUT)
@@ -135,6 +165,20 @@ snapshots:
       style: primary
       start: 0
       end: 42
+  ? |
+    my_link_directories(${CMAKE_BINARY_DIR}/lib)
+  : labels:
+    - source: my_link_directories(${CMAKE_BINARY_DIR}/lib)
+      style: primary
+      start: 0
+      end: 44
+  ? |
+    my_subdirs(lib tools)
+  : labels:
+    - source: my_subdirs(lib tools)
+      style: primary
+      start: 0
+      end: 21
   output_required_files(main.cpp deps.txt):
     labels:
     - source: output_required_files(main.cpp deps.txt)

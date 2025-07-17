@@ -39,6 +39,40 @@ snapshots:
       start: 25
       end: 69
   ? |
+    # Mixed wrapper and base functions
+    project_find_path(OPENSSL_INCLUDE_DIR openssl/ssl.h)
+    find_library(OPENSSL_SSL_LIB ssl)
+    my_find_library(OPENSSL_CRYPTO_LIB crypto)
+  : labels:
+    - source: project_find_path(OPENSSL_INCLUDE_DIR openssl/ssl.h)
+      style: primary
+      start: 35
+      end: 87
+  ? |
+    # Prefixed wrapper functions
+    utils_find_path(FOO_INCLUDE_DIR foo.h)
+    app_find_library(FOO_LIB foo)
+  : labels:
+    - source: utils_find_path(FOO_INCLUDE_DIR foo.h)
+      style: primary
+      start: 29
+      end: 67
+  ? |
+    # Wrapper functions should also trigger the rule
+    project_find_path(BOOST_INCLUDE_DIR boost/version.hpp)
+  : labels:
+    - source: project_find_path(BOOST_INCLUDE_DIR boost/version.hpp)
+      style: primary
+      start: 49
+      end: 103
+  ? |
+    custom_find_library(BOOST_SYSTEM_LIB boost_system)
+  : labels:
+    - source: custom_find_library(BOOST_SYSTEM_LIB boost_system)
+      style: primary
+      start: 0
+      end: 50
+  ? |
     find_library(BOOST_SYSTEM_LIB boost_system)
   : labels:
     - source: find_library(BOOST_SYSTEM_LIB boost_system)

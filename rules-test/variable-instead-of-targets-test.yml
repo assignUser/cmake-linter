@@ -44,6 +44,15 @@ valid:
     target_link_libraries(myapp INTERFACE $<$<PLATFORM_ID:Windows>:ws2_32>)
   - |
     target_link_libraries(myapp PRIVATE regular_target $<$<BOOL:${USE_FEATURE}>:feature_lib>)
+  - |
+    # Wrapper functions with direct target names are also valid
+    project_target_link_libraries(myapp PRIVATE math_utils string_utils)
+  - |
+    my_target_link_libraries(myapp PUBLIC target1 target2)
+  - |
+    # Wrapper functions with find_library results (with proper suffix) are valid
+    find_library(MATH_LIBRARY math)
+    custom_target_link_libraries(myapp PRIVATE ${MATH_LIBRARY})
 invalid:
   # These should trigger the rule - using variables instead of targets
   - |
@@ -72,3 +81,16 @@ invalid:
   - |
     find_library(FOO_LIB foo PATHS /usr/local/lib)
     target_link_libraries(myapp PRIVATE ${FOO_LIB})
+  - |
+    # Wrapper functions should also detect variable usage
+    set(MATH_LIB math_utils)
+    project_target_link_libraries(myapp PRIVATE ${MATH_LIB})
+  - |
+    set(STRING_LIB string_utils)
+    my_target_link_libraries(myapp PUBLIC ${STRING_LIB})
+  - |
+    set(ALL_LIBS math_utils string_utils)
+    custom_target_link_libraries(myapp INTERFACE ${ALL_LIBS})
+  - |
+    set(UTIL_LIB util_target)
+    app_target_link_libraries(myapp PRIVATE ${UTIL_LIB})

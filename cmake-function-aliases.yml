@@ -1,0 +1,78 @@
+# CMake Function Aliases Configuration
+#
+# This file allows users to define custom wrapper functions/aliases for base CMake functions.
+# The linter will treat these wrapper functions as equivalent to their base functions.
+#
+# Example: If you have a wrapper function `project_add_library` that calls `add_library`,
+# you can configure it here so the linter rules apply to both functions.
+
+# Function aliases mapping
+# Format: base_function -> list of wrapper/alias patterns
+function_aliases:
+  # Library management functions
+  add_library:
+    - project_add_library
+    - my_add_library
+    - custom_add_library
+    - app_add_library
+    - utils_add_library
+
+  add_executable:
+    - project_add_executable
+    - my_add_executable
+    - custom_add_executable
+    - app_add_executable
+    - utils_add_executable
+
+  # Target configuration functions
+  target_link_libraries:
+    - project_target_link_libraries
+    - my_target_link_libraries
+    - custom_target_link_libraries
+    - app_target_link_libraries
+    - utils_target_link_libraries
+
+  target_compile_features:
+    - project_target_compile_features
+    - my_target_compile_features
+    - custom_target_compile_features
+
+  target_include_directories:
+    - project_target_include_directories
+    - my_target_include_directories
+    - custom_target_include_directories
+
+  # Package and dependency management
+  find_package:
+    - project_find_package
+    - my_find_package
+    - custom_find_package
+
+  find_path:
+    - project_find_path
+    - my_find_path
+    - custom_find_path
+    - utils_find_path
+    - app_find_path
+
+  find_library:
+    - project_find_library
+    - my_find_library
+    - custom_find_library
+    - utils_find_library
+    - app_find_library
+
+# Common naming patterns for wrapper functions
+# These patterns can be used to automatically detect wrapper functions
+naming_patterns:
+  # Functions with prefixes (e.g., project_add_library, my_find_package)
+  - "^[a-zA-Z_][a-zA-Z0-9_]*_{base_function}$"
+  # Functions with suffixes (e.g., add_library_with_features)
+  - "^{base_function}_[a-zA-Z_][a-zA-Z0-9_]*$"
+
+# Instructions for users:
+# 1. Add your wrapper function names to the appropriate base function list
+# 2. Update your build scripts to use the configured aliases
+# 3. Run `ast-grep scan` to validate your CMake files with alias support
+#
+# Note: Changes to this file require restarting ast-grep for the changes to take effect.

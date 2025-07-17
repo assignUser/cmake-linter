@@ -1,11 +1,17 @@
 id: variable-instead-of-targets
-message: Don't use variables in place of targets. Use target names directly in target_link_libraries().
+message: Don't use variables in place of targets. Use target names directly in target_link_libraries() and its wrapper functions.
 severity: warning
 language: cmake
 rule:
   all:
-    # Match target_link_libraries with variables
-    - pattern: target_link_libraries($$$)
+    # Match target_link_libraries and common wrapper patterns
+    - any:
+        - pattern: target_link_libraries($$$)
+        - pattern: project_target_link_libraries($$$)
+        - pattern: my_target_link_libraries($$$)
+        - pattern: custom_target_link_libraries($$$)
+        - pattern: app_target_link_libraries($$$)
+        - pattern: utils_target_link_libraries($$$)
     - has:
         regex: '\$\{[^}]+\}'
     # Exclude path-like expressions (containing / or \ anywhere in the argument)
