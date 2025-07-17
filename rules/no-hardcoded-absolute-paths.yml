@@ -1,0 +1,97 @@
+id: no-hardcoded-absolute-paths
+message: Hard-coded absolute paths are not portable between operating systems or machines. Use relative paths or CMake variables like CMAKE_SOURCE_DIR, CMAKE_BINARY_DIR, CMAKE_INSTALL_PREFIX instead.
+severity: warning
+language: cmake
+rule:
+  any:
+    # target_link_libraries with Unix-style absolute paths
+    - pattern: target_link_libraries($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # target_include_directories with Unix-style absolute paths
+    - pattern: target_include_directories($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # find_library with Unix-style absolute paths
+    - pattern: find_library($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # find_path with Unix-style absolute paths
+    - pattern: find_path($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # install with Unix-style absolute paths
+    - pattern: install($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # file commands with Unix-style absolute paths
+    - pattern: file($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # add_custom_command with Unix-style absolute paths
+    - pattern: add_custom_command($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # execute_process with Unix-style absolute paths
+    - pattern: execute_process($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # set_target_properties with Unix-style absolute paths
+    - pattern: set_target_properties($$$)
+      has:
+        regex: "(^|\\s|\\(|\")\\/[^\\s\"]*"
+      not:
+        has:
+          regex: "\\$\\{[^}]+\\}/"
+    # Windows-style absolute paths with drive letters - any command
+    - pattern: target_link_libraries($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: target_include_directories($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: find_library($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: find_path($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: install($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: file($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: add_custom_command($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: execute_process($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
+    - pattern: set_target_properties($$$)
+      has:
+        regex: "[A-Za-z]:[/\\\\]"
